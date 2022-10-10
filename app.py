@@ -1,10 +1,16 @@
 from bottle import request, Bottle, template
 import subprocess
+import json
 
+from model import Problem
+
+with open("state.json") as f:
+	problem = Problem.from_dict(json.load(f))
+	
 app = Bottle()
 
 def show_problem():
-	return template("problem")
+	return template("problem", problem=problem)
 	
 def submit():
 	if f := request.files.get("file"):
@@ -13,7 +19,7 @@ def submit():
 		process = subprocess.run(["python3", "sub.py"], capture_output=True)
 		if process.returncode != 0:
 			return template("error", error="RTE")
-		if process.stdout == b"500\n":
+		if process.stdout == problem.output.encode("utf-8"):
 			res = "Odgovor je pravilen"
 		else:
 			res = "Odgovor ni pravilen"

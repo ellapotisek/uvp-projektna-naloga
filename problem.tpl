@@ -4,11 +4,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#ffffff">
-    <title>Naloga</title>
+    <title>{{problem.title}}</title>
     <link rel="stylesheet" href="/static/main.css">
   </head>
   <body>
-    Seštej števili a in b, ki ju prebereš s standardnega vhoda.
+  	<h2>{{problem.title}}</h2>
+    {{problem.content}}
     <form method='post' action='/upload' enctype='multipart/form-data'>
     	<input type='file' name='file'>
     	<input type='submit' value='Submit'>

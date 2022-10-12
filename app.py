@@ -25,15 +25,21 @@ def submit(problem_id):
 	if f := request.files.get("file"):
 		with open("sub.py", "wb") as sub:
 			sub.write(f.file.read())
-		process = subprocess.run(["python3", "sub.py"],
-			capture_output=True, input=problem.input.encode("utf-8"))
-		if process.returncode != 0:
-			return template("error", error="RTE")
-		if process.stdout == problem.output.encode("utf-8"):
-			res = "Odgovor je pravilen"
-		else:
-			res = "Odgovor ni pravilen"
-		return template("submission", result=res)
+		tests=len(problem.input)
+		results=[]
+		for test in range(0, tests):
+			process = subprocess.run(["python3", "sub.py"],
+				capture_output=True, input=problem.input[test].encode("utf-8"))
+			if process.returncode != 0:
+				#return template("error", error="RTE")
+				results.append("RTE")
+			elif process.stdout == problem.output[test].encode("utf-8"):
+				#res = "Odgovor je pravilen"
+				results.append("OK")
+			else:
+				#res = "Odgovor ni pravilen"
+				results.append("WA")
+		return template("submission", results=results)
 	else:
 		raise Exception()
 	

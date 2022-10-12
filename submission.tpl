@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="/static/main.css">
   </head>
   <body>
-	Naloga uspešno oddana.
-	{{result}}
+	Naloga uspešno oddana.<br>
+	% for i in results:
+		{{i}}<br>
+	% end
   </body>
 </html>

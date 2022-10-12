@@ -1,16 +1,10 @@
 from bottle import request, Bottle, template
 import subprocess
-import json
 import io
 
-from model import Problem
+from model import Problem, load_state, save_state
 
-with open("state.json") as f:
-	p = json.load(f)
-	
-problems = []
-for i in p:
-	problems.append(Problem.from_dict(i))	
+problems = load_state("state.json")
 
 app = Bottle()
 

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-
+import json
 
 @dataclass
 class Problem:
@@ -24,3 +24,13 @@ class Problem:
 			input=d["input"],
 			output=d["output"]
 		)
+		
+def load_state(fname):
+	with open(fname) as f:
+		p = json.load(f)
+	return list(map(Problem.from_dict, p))
+	
+def save_state(fname, problems):
+	p = list(map(lambda i: i.to_dict(), problems))
+	with open(fname, "w") as f:
+		json.dump(p, f)

@@ -1,6 +1,7 @@
 from bottle import request, Bottle, template
 import subprocess
 import json
+import io
 
 from model import Problem
 
@@ -24,7 +25,8 @@ def submit(problem_id):
 	if f := request.files.get("file"):
 		with open("sub.py", "wb") as sub:
 			sub.write(f.file.read())
-		process = subprocess.run(["python3", "sub.py"], capture_output=True)
+		process = subprocess.run(["python3", "sub.py"],
+			capture_output=True, input=problem.input.encode("utf-8"))
 		if process.returncode != 0:
 			return template("error", error="RTE")
 		if process.stdout == problem.output.encode("utf-8"):

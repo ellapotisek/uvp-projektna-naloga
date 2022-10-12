@@ -5,14 +5,22 @@ import json
 from model import Problem
 
 with open("state.json") as f:
-	problem = Problem.from_dict(json.load(f))
+	p = json.load(f)
 	
+problems = []
+for i in p:
+	problems.append(Problem.from_dict(i))	
+
 app = Bottle()
 
-def show_problem():
-	return template("problem", problem=problem)
+def list_problems():
+	return template("problem_list", problems=problems)
+
+def show_problem(problem_id):
+	return template("problem", problem=problems[problem_id], id=problem_id)
 	
-def submit():
+def submit(problem_id):
+	problem = problems[problem_id]
 	if f := request.files.get("file"):
 		with open("sub.py", "wb") as sub:
 			sub.write(f.file.read())
@@ -28,7 +36,8 @@ def submit():
 		raise Exception()
 	
 
-app.route("/", "GET", show_problem)
-app.route("/upload", "POST", submit)
+app.route("/<problem_id:int>/upload", "POST", submit)
+app.route("/", "GET", list_problems)
+app.route("/<problem_id:int>", "GET", show_problem)
 
 app.run(host='localhost', port=8000, debug=True, reload=True)

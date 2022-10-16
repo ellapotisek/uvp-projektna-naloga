@@ -9,8 +9,8 @@
   </head>
   <body>
 	Naloga uspešno oddana.<br>
-	% for i in results:
-		{{i}}<br>
+	% for i, res in enumerate(results):
+		{{i+1}} {{res}}<br>
 	% end
   </body>
 </html>

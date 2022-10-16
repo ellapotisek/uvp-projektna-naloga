@@ -12,5 +12,7 @@
   	% for id, problem in enumerate(problems):
   		<a href="/{{id}}">{{problem.title}}</a><br>
   	% end
+  	<br>
+  	<a href="/create_problem">Nova naloga</a>
   </body>
 </html>

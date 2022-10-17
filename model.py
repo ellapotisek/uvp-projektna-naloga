@@ -25,13 +25,52 @@ class Problem:
 			input=d["input"],
 			output=d["output"]
 		)
+
+@dataclass
+class User:
+	username: str
+	password: str
+	progress: List[int]
+	
+	def to_dict(self):
+		return {
+			"username": self.username,
+			"password": self.password,
+			"progress": self.progress
+		}
+		
+	@classmethod
+	def from_dict(cls, d):
+		return cls(
+			username=d["username"],
+			password=d["password"],
+			progress=d["progress"]
+		)
+
+@dataclass
+class State:
+	users: List[User]
+	problems: List[Problem]
+	
+	def to_dict(self):
+		return {
+			"users": list(map(lambda i: i.to_dict(), self.users)),
+			"problems": list(map(lambda i: i.to_dict(), self.problems))
+		}
+	
+	@classmethod
+	def from_dict(cls, d):
+		return cls(
+			users=list(map(User.from_dict, d["users"])),
+			problems=list(map(Problem.from_dict, d["problems"]))
+		)		
 		
 def load_state(fname):
 	with open(fname) as f:
 		p = json.load(f)
-	return list(map(Problem.from_dict, p))
+	return State.from_dict(p)
 	
-def save_state(fname, problems):
-	p = list(map(lambda i: i.to_dict(), problems))
+def save_state(fname, state: State):
+	p = state.to_dict()
 	with open(fname, "w") as f:
 		json.dump(p, f)

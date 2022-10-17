@@ -4,18 +4,18 @@ import io
 
 from model import Problem, load_state, save_state
 
-problems = load_state("state.json")
+state = load_state("state.json")
 
 app = Bottle()
 
 def list_problems():
-	return template("problem_list", problems=problems)
+	return template("problem_list", problems=state.problems)
 
 def show_problem(problem_id):
-	return template("problem", problem=problems[problem_id], id=problem_id)
+	return template("problem", problem=state.problems[problem_id], id=problem_id)
 	
 def submit(problem_id):
-	problem = problems[problem_id]
+	problem = state.problems[problem_id]
 	if f := request.files.get("file"):
 		with open("sub.py", "wb") as sub:
 			sub.write(f.file.read())
@@ -55,9 +55,9 @@ def submit_problem():
 		input=inp,
 		output=outp,
 	)
-	problems.append(problem)
-	save_state("state.json", problems)
-	problem_id = len(problems)-1
+	state.problems.append(problem)
+	save_state("state.json", state)
+	problem_id = len(state.problems)-1
 	return redirect("/" + str(problem_id))
 		
 	

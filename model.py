@@ -1,12 +1,13 @@
 from dataclasses import dataclass
+from typing import List
 import json
 
 @dataclass
 class Problem:
 	title: str
 	content: str
-	input: str
-	output: str
+	input: List[str]
+	output: List[str]
 	
 	def to_dict(self):
 		return {

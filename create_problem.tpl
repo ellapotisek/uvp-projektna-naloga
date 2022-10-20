@@ -14,7 +14,7 @@
     	<input type='file' name='content'><br>
     	<input type='file' name='input' multiple><br>
     	<input type='file' name='output' multiple><br>
-    	<a href=/{{id}}><input type='submit' value='Submit'></a>
+    	<input type='submit' value='Submit'>
 	</form>
           
   </body>

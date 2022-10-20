@@ -14,5 +14,13 @@
   	% end
   	<br>
   	<a href="/create_problem">Nova naloga</a>
+  	<br>
+  	% if username == None:
+  		<a href="/login">Prijava</a><br>
+  		<a href="/new_user">Nov uporabnik</a>
+  	% else:
+  		Prijavljen kot {{username}}. <a href="/logout">Odjava</a>
+  	% end
+  		
   </body>
 </html>

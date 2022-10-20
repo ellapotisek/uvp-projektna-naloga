@@ -2,19 +2,20 @@ from bottle import request, Bottle, template, redirect
 import subprocess
 import io
 
-from model import Problem, load_state, save_state
+from model import Problem, User, load_state, save_state
 
 state = load_state("state.json")
-
-app = Bottle()
+state.username = None
 
 def list_problems():
-	return template("problem_list", problems=state.problems)
+	return template("problem_list", problems=state.problems, username=state.username)
 
 def show_problem(problem_id):
 	return template("problem", problem=state.problems[problem_id], id=problem_id)
 	
 def submit(problem_id):
+	if state.username == None:
+		return template("error", error="Nisi prijavljen")
 	problem = state.problems[problem_id]
 	if f := request.files.get("file"):
 		with open("sub.py", "wb") as sub:
@@ -38,6 +39,8 @@ def create_problem():
 	return template("create_problem")
 
 def submit_problem():
+	if state.username == None:
+		return template("error", error="Nisi prijavljen")
 	t = request.forms.get("title")
 	if f := request.files.getall("content"):
 		txt = f[0].file.read().decode("utf-8")
@@ -60,12 +63,43 @@ def submit_problem():
 	problem_id = len(state.problems)-1
 	return redirect("/" + str(problem_id))
 		
-	
+def login_prompt():
+	return template("login")
 
-app.route("/<problem_id:int>/upload", "POST", submit)
-app.route("/", "GET", list_problems)
-app.route("/<problem_id:int>", "GET", show_problem)
-app.route("/create_problem", "GET", create_problem)
-app.route("/create_problem/upload", "POST", submit_problem)
+def login():
+	un = request.forms.get("username")
+	p = request.forms.get("password")
+	if state.username != None:
+		return template("error", error="Nekdo je ze prijavljen")
+	for user in state.users:
+		if un == user.username:
+			if p == user.password:
+				state.username = un
+				return redirect("/")
+			else:
+				return template("error", error="Uporabniško ime in geslo se ne ujemata.")
+	return template("error", error="Uporabnika ni v bazi")
 
-app.run(host='localhost', port=8080, debug=True, reload=True)
+def logout():
+	state.username = None
+	return redirect("/")
+
+def new_user_prompt():
+	return template("new_user")
+
+def new_user():
+	un = request.forms.get("username")
+	p = request.forms.get("password")
+	cp = request.forms.get("confirm_password")
+	if p != cp:
+		return template("error", error="Gesli se ne ujemata")
+	user = User(
+		username=un,
+		password=p,
+		progress=[]
+	)
+	state.users.append(user)
+	save_state("state.json", state)
+	state.username = un
+	return redirect("/")
+

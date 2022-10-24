@@ -12,8 +12,8 @@
     {{problem.content}}
     <form method='post' action='/{{id}}/upload' enctype='multipart/form-data'>
     	<input type='file' name='file'>
-    	<input type='submit' value='Submit'>
+    	<input type='submit' value='Submit'><br>
 	</form>
-          
+    <a href="/{{id}}/submissions">Oddaje</a>
   </body>
 </html>

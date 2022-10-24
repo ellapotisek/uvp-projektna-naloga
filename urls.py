@@ -13,5 +13,7 @@ app.route("/login", "POST", login)
 app.route("/logout", "GET", logout)
 app.route("/new_user", "GET", new_user_prompt)
 app.route("/new_user", "POST", new_user)
+app.route("/<problem_id:int>/submissions", "GET", submissions)
+app.route("/<problem_id:int>/submissions/<submission_number:int>", "GET", submission_details)
 
 app.run(host='localhost', port=8080, debug=True, reload=True)

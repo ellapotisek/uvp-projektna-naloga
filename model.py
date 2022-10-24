@@ -3,9 +3,35 @@ from typing import List
 import json
 
 @dataclass
+class Submission:
+	problem_id: int
+	content: str
+	results: List[str]
+	score: int
+	
+	def to_dict(self):
+		return {
+			"problem_id": self.problem_id,
+			"content": self.content,
+			"results": self.results,
+			"score": self.score
+		}
+	
+	@classmethod
+	def from_dict(cls, d):
+		return cls(
+			problem_id=d["problem_id"],
+			content=d["content"],
+			results=d["results"],
+			score=d["score"]
+		)
+		
+
+@dataclass
 class Problem:
 	title: str
 	content: str
+	time_limit: int
 	input: List[str]
 	output: List[str]
 	
@@ -13,6 +39,7 @@ class Problem:
 		return {
 			"title": self.title,
 			"content": self.content,
+			"time_limit": self.time_limit,
 			"input": self.input,
 			"output": self.output
 		}
@@ -22,6 +49,7 @@ class Problem:
 		return cls(
 			title=d["title"],
 			content=d["content"],
+			time_limit=d["time_limit"],
 			input=d["input"],
 			output=d["output"]
 		)
@@ -30,13 +58,13 @@ class Problem:
 class User:
 	username: str
 	password: str
-	progress: List[int]
+	submissions: List[Submission]
 	
 	def to_dict(self):
 		return {
 			"username": self.username,
 			"password": self.password,
-			"progress": self.progress
+			"submissions": list(map(lambda i: i.to_dict(), self.submissions))
 		}
 		
 	@classmethod
@@ -44,8 +72,9 @@ class User:
 		return cls(
 			username=d["username"],
 			password=d["password"],
-			progress=d["progress"]
+			submissions=list(map(Submission.from_dict, d["submissions"]))
 		)
+	
 
 @dataclass
 class State:

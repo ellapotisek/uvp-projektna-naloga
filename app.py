@@ -1,47 +1,73 @@
-from bottle import request, Bottle, template, redirect
+from bottle import request, Bottle, template, redirect, response
 import subprocess
 import io
 
-from model import Problem, User, load_state, save_state
+from model import Problem, User, load_state, save_state, Submission
 
 state = load_state("state.json")
-state.username = None
+
+with open('secret.txt') as f:
+    secret = f.read()
 
 def list_problems():
-	return template("problem_list", problems=state.problems, username=state.username)
+	if ((username := request.get_cookie("username", secret=secret)) 
+			and not (user := find_user(username))):
+		return template("error", error="Neveljaven piškotek.")
+	return template("problem_list", problems=state.problems, username=username)
 
 def show_problem(problem_id):
 	return template("problem", problem=state.problems[problem_id], id=problem_id)
 	
 def submit(problem_id):
-	if state.username == None:
+	if not (username := request.get_cookie("username", secret=secret)):
 		return template("error", error="Nisi prijavljen")
+	if not (user := find_user(username)):
+		return template("error", error="Neveljaven piškotek.")
 	problem = state.problems[problem_id]
 	if f := request.files.get("file"):
+		c = f.file.read()
+		s = 0
 		with open("sub.py", "wb") as sub:
-			sub.write(f.file.read())
+			sub.write(c)
 		tests=len(problem.input)
-		results=[]
+		results = []
 		for test in range(0, tests):
-			process = subprocess.run(["python3", "sub.py"],
-				capture_output=True, input=problem.input[test].encode("utf-8"))
-			if process.returncode != 0:
-				results.append("RTE")
-			elif process.stdout == problem.output[test].encode("utf-8"):
-				results.append("OK")
+			try:
+				process = subprocess.run(["python3", "sub.py"],
+					capture_output=True,
+						input=problem.input[test].encode("utf-8"),timeout=problem.time_limit)
+			except:
+				results.append("TLE")
 			else:
-				results.append("WA")
+				if process.returncode != 0:
+					results.append("RTE")
+				elif process.stdout == problem.output[test].encode("utf-8"):
+					results.append("OK")
+					s += 1
+				else:
+					results.append("WA")
+		sub = Submission(
+			problem_id=problem_id,
+			content=c.decode("utf-8"),
+			results=results,
+			score=s
+		)
+		user.submissions.append(sub)
+		save_state("state.json", state)
 		return template("submission", results=results)
 	else:
-		raise Exception()
+		return template("error", error="Manjkajoče datoteke.")
 
 def create_problem():
 	return template("create_problem")
 
 def submit_problem():
-	if state.username == None:
+	if not (username := request.get_cookie("username", secret=secret)):
 		return template("error", error="Nisi prijavljen")
+	if not (user := find_user(username)):
+		return template("error", error="Neveljaven piškotek.")
 	t = request.forms.get("title")
+	tl = request.forms.get("time_limit")
 	if f := request.files.getall("content"):
 		txt = f[0].file.read().decode("utf-8")
 	inp = []
@@ -55,6 +81,7 @@ def submit_problem():
 	problem = Problem(
 		title=t,
 		content=txt,
+		time_limit=tl,
 		input=inp,
 		output=outp,
 	)
@@ -65,23 +92,28 @@ def submit_problem():
 		
 def login_prompt():
 	return template("login")
+	
+def check_password(p1,  p2):
+	return p1 == p2
+	
+def find_user(username):
+	for user in state.users:
+		if username == user.username:
+			return user		
+	return None
 
 def login():
-	un = request.forms.get("username")
-	p = request.forms.get("password")
-	if state.username != None:
-		return template("error", error="Nekdo je ze prijavljen")
-	for user in state.users:
-		if un == user.username:
-			if p == user.password:
-				state.username = un
-				return redirect("/")
-			else:
-				return template("error", error="Uporabniško ime in geslo se ne ujemata.")
-	return template("error", error="Uporabnika ni v bazi")
+	username = request.forms.get("username")
+	password = request.forms.get("password")	
+	if not (user := find_user(username)):
+		return template("error", error="Uporabnika ni v bazi.")
+	if not check_password(password, user.password):	
+		return template("error", error="Uporabniško ime in geslo se ne ujemata.")
+	response.set_cookie("username", username, path="/", secret=secret)
+	return redirect("/")			
 
 def logout():
-	state.username = None
+	response.delete_cookie('username', path='/', secret=secret)
 	return redirect("/")
 
 def new_user_prompt():
@@ -96,10 +128,31 @@ def new_user():
 	user = User(
 		username=un,
 		password=p,
-		progress=[]
+		submissions=[]
 	)
 	state.users.append(user)
 	save_state("state.json", state)
 	state.username = un
-	return redirect("/")
+	return redirect("/login")
+
+def number_of_submissions(problem_id, submissions):
+	for sub in submissions:
+		if sub.problem_id == problem_id:
+			return True
+	return False
+
+def submissions(problem_id):
+	if not (username := request.get_cookie("username", secret=secret)):
+		return template("error", error="Nisi prijavljen")
+	if not (user := find_user(username)):
+		return template("error", error="Neveljaven piškotek.")
+	problem = state.problems[problem_id]
+	return template("submissions_list", submissions=user.submissions, problem=problem, id=problem_id, tried=(number_of_submissions(problem_id, user.submissions)))
+	
+def submission_details(problem_id, submission_number):
+	if not (username := request.get_cookie("username", secret=secret)):
+		return template("error", error="Nisi prijavljen")
+	if not (user := find_user(username)):
+		return template("error", error="Neveljaven piškotek.")
+	return template("submission_details", submission=user.submissions[submission_number])
 

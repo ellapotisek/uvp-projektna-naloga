@@ -11,6 +11,7 @@
   	Naloži eno datoteko z vsebino (.txt), datoteke z vhodnimi podatki (1.in, 2.in, ...) in z rešitvami (1.out, 2.out, ...).
     <form method='post' action='/create_problem/upload' enctype='multipart/form-data'>
     	<input type='text' name='title'><br>
+    	<input type='text' name='time_limit'><br>
     	<input type='file' name='content'><br>
     	<input type='file' name='input' multiple><br>
     	<input type='file' name='output' multiple><br>

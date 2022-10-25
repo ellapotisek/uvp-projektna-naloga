@@ -5,22 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#ffffff">
     <title>Problems list</title>
-    <link rel="stylesheet" href="/static/main.css">
+    <link rel="stylesheet" href="/main.css">
   </head>
   <body>
-  	<h2>List of Problems</h2>
+  	<nav>
+	   <ul class="navul">
+	      <li class="strani"><a href="/" class="active">Seznam nalog</a></li>
+	   % if username == None:
+  			<li class="prijava"><a href="/login">Prijava</a></li>
+  			<li class="prijava"><a href="/new_user">Nov uporabnik</a></li>
+  		% else:
+  			<li class="navtext">Prijavljen kot {{username}}.</li>
+  			<li class="prijava"><a href="/logout">Odjava</a></li>
+  		% end
+  		</ul>
+   </nav>
+  	<h2>Seznam nalog</h2>
+  	<ol>
   	% for id, problem in enumerate(problems):
-  		<a href="/{{id}}">{{problem.title}}</a><br>
+  		<li><a href="/{{id}}">{{problem.title}}</a></li>
   	% end
+  	</ol>
   	<br>
   	<a href="/create_problem">Nova naloga</a>
   	<br>
-  	% if username == None:
-  		<a href="/login">Prijava</a><br>
-  		<a href="/new_user">Nov uporabnik</a>
-  	% else:
-  		Prijavljen kot {{username}}. <a href="/logout">Odjava</a>
-  	% end
   		
   </body>
 </html>

@@ -5,16 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#ffffff">
     <title>Oddaje</title>
-    <link rel="stylesheet" href="/static/main.css">
+    <link rel="stylesheet" href="/main.css">
   </head>
   <body>
+  	<nav>
+	   <ul class="navul">
+	      <li class="strani"><a href="/">Seznam nalog</a></li>
+	      <li class="strani"><a href="/{{id}}">{{problem.title}}</a></li>
+	      <li class="strani"><a href="/{{id}}/submissions" class="active">Oddaje naloge</a></li>
+	   % if username == None:
+  		  <li class="prijava"><a href="/login">Prijava</a></li>
+  		  <li class="prijava"><a href="/new_user">Nov uporabnik</a></li>
+  		% else:
+  		  <li class="navtext">Prijavljen kot {{username}}.</li>
+  		  <li class="prijava"><a href="/logout">Odjava</a></li>
+  		% end
+  		</ul>
+   	</nav>
   	% if tried == False:
   		Te naloge še nisi oddal.
   	% else:
 	%	 for i, sub in enumerate(submissions):
 	%		if sub.problem_id == id:
-				<a href="/{{id}}/submissions/{{i}}">{{i+1}}</a>
-				{{problem.title}} {{sub.score}}/{{len(problem.input)}}<br>
+				<table>
+					<tr>
+						<th><a href="/{{id}}/submissions/{{i}}">{{i+1}}</a></th>
+						<th>{{problem.title}}</th>
+						<th>{{sub.score}}/{{len(problem.input)}}</th>
+					</tr>
+				</table>
 	% end
   </body>
 </html>

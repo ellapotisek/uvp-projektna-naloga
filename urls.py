@@ -3,6 +3,12 @@ from app import *
 
 app = bottle.Bottle()
 
+def static():
+	return bottle.static_file("main.css", "./")
+
+app.route("/main.css", "GET", static)
+
+
 app.route("/<problem_id:int>/upload", "POST", submit)
 app.route("/", "GET", list_problems)
 app.route("/<problem_id:int>", "GET", show_problem)
@@ -16,4 +22,4 @@ app.route("/new_user", "POST", new_user)
 app.route("/<problem_id:int>/submissions", "GET", submissions)
 app.route("/<problem_id:int>/submissions/<submission_number:int>", "GET", submission_details)
 
-app.run(host='localhost', port=8080, debug=True, reload=True)
+app.run(host='localhost', port=8000, debug=True, reload=True)

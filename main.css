@@ -1,0 +1,49 @@
+.navul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+.strani {
+    float: left;
+}
+
+.prijava {
+	float: right;
+}
+
+.navtext {
+	float: right;
+	display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a {
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #222;
+}
+
+.active, .accordion:hover {
+  background-color: #ccc; 
+}
+
+body {
+	background-color: white;
+	color: black;
+}
+
+table {
+	padding: 14px 16px;
+	text-align: left;
+}

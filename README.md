@@ -6,7 +6,7 @@ Spletna aplikacija z nalogami iz tekmovalnega programiranja. Oddane rešitve se 
 
 Uporabnik si lahko ogleda naloge, odda rešitve, si ogleda rezultate svojih oddaj in ustvari novo nalogo.
 
-###Navodila za uporabo
+### Navodila za uporabo
 * Skopiraj vsebino datoteke "example.json" v datoteko "state.json", da bo začetno stanje obstajalo.
 * Zaeni program "main.py"
 

@@ -16,7 +16,7 @@
 		},
 		{
 			"title": "Prepogibanje papirja",
-			"content": "Vemo, da v našem vesolju lahko papir prepognemo samo sedemkrat. Janezek iz vzporednega vesolja pa je odkril, da to tam ne velja in lahko papir prepogne neskončno mnogokrat. Edino, kar ga skrbi, je, kako visok bo na koncu ta kup papirja, da ne bo skuajno motil satelitov v orbiti. Pomagaj Janezku ugotoviti, kako visok bo njegov kup papirja, če pozna debelost papirja in število pregibanj, ki bi jih Janezek želel narediti. Števili sta podani v isti vrstici. Na konce rešitve je znak za novo vrstico.",
+			"content": "Vemo, da v našem vesolju lahko papir prepognemo samo sedemkrat. Janezek iz vzporednega vesolja pa je odkril, da to tam ne velja in lahko papir prepogne neskončno mnogokrat. Edino, kar ga skrbi, je, kako visok bo na koncu ta kup papirja, da ne bo slučajno motil satelitov v orbiti. Pomagaj Janezku ugotoviti, kako visok bo njegov kup papirja, če poznaš debelost papirja in število pregibanj, ki bi jih Janezek želel narediti. Števili sta podani v isti vrstici. Na konce rešitve je znak za novo vrstico.",
 			"time_limit": 1,
 			"input": ["3 7", "7 14", "56 4"],
 			"output": ["384\n", "114688\n", "896\n"]

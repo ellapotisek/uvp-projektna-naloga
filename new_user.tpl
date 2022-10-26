@@ -16,16 +16,16 @@
     <form method='post' action='/new_user' enctype='multipart/form-data'>
     	<table>
     		<tr>
-    			<th>Uporabniško ime</th>
-    			<th><input type='text' name='username'></th>
+    			<td>Uporabniško ime</td>
+    			<td><input type='text' name='username'></td>
     		</tr>
     		<tr>
-    			<th>Geslo</th>
-    			<th><input type='text' name='password'></th>
+    			<td>Geslo</td>
+    			<td><input type='password' name='password'></td>
     		<tr>
     		</tr>
-    			<th>Potrditev gesla</th>
-    			<th><input type='text' name='confirm_password'></th>
+    			<td>Potrditev gesla</td>
+    			<td><input type='password' name='confirm_password'></td>
     		</tr>
     	</table>
     	<input type='submit' value='Submit'>

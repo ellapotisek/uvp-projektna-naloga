@@ -13,6 +13,6 @@
 	      <li class="strani"><a href="/">Seznam nalog</a></li>
   		</ul>
    	  </nav>
-	Error: {{error}}
+	<p><em>Napaka</em>: {{error}}</p>
   </body>
 </html>

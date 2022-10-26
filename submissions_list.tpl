@@ -25,15 +25,17 @@
   	% if tried == False:
   		Te naloge še nisi oddal.
   	% else:
+  		<table>
 	%	 for i, sub in enumerate(submissions):
 	%		if sub.problem_id == id:
-				<table>
 					<tr>
-						<th><a href="/{{id}}/submissions/{{i}}">{{i+1}}</a></th>
-						<th>{{problem.title}}</th>
-						<th>{{sub.score}}/{{len(problem.input)}}</th>
+						<td><a href="/{{id}}/submissions/{{i}}">{{i+1}}</a></td>
+						<td>{{problem.title}}</td>
+						<td>{{sub.score}}/{{len(problem.input)}}</td>
 					</tr>
-				</table>
+	% 		end
+	% 	  end
+		</table>
 	% end
   </body>
 </html>

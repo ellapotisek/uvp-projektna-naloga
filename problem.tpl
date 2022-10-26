@@ -22,11 +22,11 @@
   		</ul>
    	</nav>
   	<h2>{{problem.title}}</h2>
-    {{problem.content}}
+    <p>{{problem.content}}</p>
     <form method='post' action='/{{id}}/upload' enctype='multipart/form-data'>
     	<input type='file' name='file'>
     	<input type='submit' value='Submit'><br>
 	</form>
-    <a href="/{{id}}/submissions">Oddaje</a>
+    <p><a href="/{{id}}/submissions" class="oddaje-gumb">Oddaje</a><p>
   </body>
 </html>

@@ -20,28 +20,28 @@
   		% end
   		</ul>
    	  </nav>
-  	<p>Naloži eno datoteko z vsebino (.txt), datoteke z vhodnimi podatki (1.in, 2.in, ...) in z rešitvami (1.out, 2.out, ...).</p>
+  	<p>Naloži eno datoteko z vsebino (.txt), datoteke z vhodnimi podatki (1.in, 2.in, ...) in z rešitvami (1.out, 2.out, ...). Časovna omejitev je v sekundah.</p>
     <form method='post' action='/create_problem/upload' enctype='multipart/form-data'>
     	<table>
     		<tr>
-    			<th>Naslov</th>
-    			<th><input type='text' name='title'></th>
+    			<td>Naslov</td>
+    			<td><input type='text' name='title'></td>
     		</tr>
     		<tr>
-    			<th>Časovna omejitev</th>
-    			<th><input type='text' name='time_limit'></th>
+    			<td>Časovna omejitev</td>
+    			<td><input type='text' name='time_limit'></td>
     		</tr>
     		<tr>
-    			<th>Vsebina naloge</th>
-    			<th><input type='file' name='content'></th>
+    			<td>Vsebina naloge</td>
+    			<td><input type='file' name='content'></td>
     		</tr>
     		<tr>
-    			<th>Datoteke z vhodnimi podatki</th>
-    			<th><input type='file' name='input' multiple></th>
+    			<td>Datoteke z vhodnimi podatki</td>
+    			<td><input type='file' name='input' multiple></td>
     		</tr>
     		<tr>
-    			<th>Datoteke z rešitvami</th>
-    			<th><input type='file' name='output' multiple></th>
+    			<td>Datoteke z rešitvami</td>
+    			<td><input type='file' name='output' multiple></td>
     		</tr>
     	</table>
     	<input type='submit' value='Submit'>

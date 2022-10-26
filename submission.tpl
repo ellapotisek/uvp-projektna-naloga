@@ -21,9 +21,14 @@
   		% end
   		</ul>
    	</nav>
-	Naloga uspešno oddana.<br>
+	<p>Naloga uspešno oddana.</p>
+	<table>
 	% for i, res in enumerate(results):
-		{{i+1}} {{res}}<br>
+		<tr>
+			<td>{{i+1}}</td>
+			<td>{{res}}</td>
+		</tr>
 	% end
+	</table>
   </body>
 </html>

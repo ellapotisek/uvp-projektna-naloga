@@ -23,8 +23,13 @@
   		% end
   		</ul>
    	</nav>
+   	<table>
 	% for i, sub in enumerate(submission.results):
-		{{i+1}} {{sub}}<br>
+		<tr>
+			<td>{{i+1}}</td>
+			<td>{{sub}}</td>
+		</tr>
 	% end
+	</table>
   </body>
 </html>

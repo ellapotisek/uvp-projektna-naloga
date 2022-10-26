@@ -23,7 +23,7 @@
   	<h2>Seznam nalog</h2>
   	<ol>
   	% for id, problem in enumerate(problems):
-  		<li><a href="/{{id}}">{{problem.title}}</a></li>
+  		<li><a href="/{{id}}" class="naloga">{{problem.title}}</a></li>
   	% end
   	</ol>
   	<br>

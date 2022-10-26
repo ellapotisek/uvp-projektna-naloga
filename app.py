@@ -58,7 +58,7 @@ def submit(problem_id):
 		)
 		user.submissions.append(sub)
 		save_state("state.json", state)
-		return template("submission", results=results, username=username, problem=problem)
+		return template("submission", results=results, username=username, problem=problem, id=problem_id)
 	else:
 		return template("error", error="Manjkajoče datoteke.", username=username)
 
@@ -162,5 +162,5 @@ def submission_details(problem_id, submission_number):
 	if not (user := find_user(username)):
 		return template("error", error="Neveljaven piškotek.")
 	problem = state.problems[problem_id]
-	return template("submission_details", submission=user.submissions[submission_number], username=username, num=submission_number, problem=problem)
+	return template("submission_details", submission=user.submissions[submission_number], username=username, num=submission_number, problem=problem, id=problem_id)
 
